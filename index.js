@@ -147,15 +147,12 @@ function editListItem() {
 
     e.preventDefault();
 
-
+    let itemIndex = getItemIndexFromElement(event.currentTarget);
+ 
     const editEntry = $('input[name = "editbar"]').val();
     $('input[name = "editbar"]').val('');
 
-
-    let nameValue = $('#edit-text').closest('li').find('.js-shopping-item').text(editEntry);
-
-    return nameValue;
-    
+    store.items[itemIndex].name = editEntry;
 
     renderShoppingList();
   });
