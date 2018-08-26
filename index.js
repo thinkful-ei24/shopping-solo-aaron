@@ -1,10 +1,10 @@
 'use strict';
 
 const store = {
-  items: [{ name: 'apples', checked: false},
-  { name: 'oranges', checked: false},
-  { name: 'milk', checked: true},
-  { name: 'bread', checked: false}],
+  items: [{ name: 'apples', checked: false },
+  { name: 'oranges', checked: false },
+  { name: 'milk', checked: true },
+  { name: 'bread', checked: false }],
   hideChecked: false,
   searched: '',
 };
@@ -21,10 +21,12 @@ function generateItemElement(item, itemIndex) {
         <button class="shopping-item-delete js-item-delete">
             <span class="button-label">delete</span>
         </button>
+        <form id="edit-text">
         <input type="text" name="editbar" placeholder="Edit your entry here">
         <button class="shopping-item-edit js-item-edit">
             <span class="button-label">edit</span>
         </button>
+        </form>
       </div>
     </li>`;
 }
@@ -39,8 +41,8 @@ function generateShoppingItemsString(shoppingList) {
 function renderShoppingList() {
 
   let displayedItems = store.hideChecked ? store.items.filter(item => !item.checked) : store.items;
-  displayedItems = store.searched !== '' ? displayedItems.filter(item => item.name === store.searched): displayedItems;
-  
+  displayedItems = store.searched !== '' ? displayedItems.filter(item => item.name === store.searched) : displayedItems;
+
 
 
   const shoppingListItemsString = generateShoppingItemsString(displayedItems);
@@ -129,7 +131,6 @@ function searchForItems() {
     const searchEntry = $('input[name = "search"]').val();
     $('input[name = "search"]').val('');
 
-
     store.searched = searchEntry;
 
     renderShoppingList();
@@ -142,18 +143,27 @@ function searchForItems() {
 
 
 function editListItem() {
-  $('.js-shopping-list').on('click', '.js-item-edit', event => {
+  $('#edit-text').submit(function (e) {
 
-    const itemIndex = getItemIndexFromElement(event.currentTarget);
+    e.preventDefault();
+
+
     const editEntry = $('input[name = "editbar"]').val();
-    console.log(itemIndex.name);
-    console.log(event.currentTarget);
+    $('input[name = "editbar"]').val('');
 
-    // this.name = editEntry;
+
+    let nameValue = $('#edit-text').closest('li').find('.js-shopping-item').text(editEntry);
+
+    return nameValue;
     
+
     renderShoppingList();
   });
 }
+
+
+
+
 
 
 function handleShoppingList() {
