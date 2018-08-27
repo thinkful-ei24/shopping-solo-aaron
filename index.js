@@ -2,9 +2,9 @@
 
 const store = {
   items: [{ name: 'apples', checked: false },
-  { name: 'oranges', checked: false },
-  { name: 'milk', checked: true },
-  { name: 'bread', checked: false }],
+    { name: 'oranges', checked: false },
+    { name: 'milk', checked: true },
+    { name: 'bread', checked: false }],
   hideChecked: false,
   searched: '',
 };
@@ -21,7 +21,7 @@ function generateItemElement(item, itemIndex) {
         <button class="shopping-item-delete js-item-delete">
             <span class="button-label">delete</span>
         </button>
-        <form id="edit-text">
+        <form class="edit-text">
         <input type="text" name="editbar" placeholder="Edit your entry here">
         <button class="shopping-item-edit js-item-edit">
             <span class="button-label">edit</span>
@@ -47,6 +47,7 @@ function renderShoppingList() {
 
   const shoppingListItemsString = generateShoppingItemsString(displayedItems);
   $('.js-shopping-list').html(shoppingListItemsString);
+  editListItem();
 }
 
 
@@ -143,17 +144,17 @@ function searchForItems() {
 
 
 function editListItem() {
-  $('#edit-text').submit(function (e) {
+  $('.edit-text').submit(function (e) {
 
     e.preventDefault();
 
     let itemIndex = getItemIndexFromElement(event.currentTarget);
- 
-    const editEntry = $('input[name = "editbar"]').val();
-    $('input[name = "editbar"]').val('');
+
+    const editEntry = $(this).find('input').val();
+    $(this).find('input').val('');
 
     store.items[itemIndex].name = editEntry;
-
+    console.log(editEntry);
     renderShoppingList();
   });
 }
@@ -170,7 +171,6 @@ function handleShoppingList() {
   handleDeleteItemClicked();
   handleHideCompletedClicked();
   searchForItems();
-  editListItem();
 }
 
 
